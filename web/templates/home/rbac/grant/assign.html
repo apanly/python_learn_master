@@ -1,0 +1,91 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>权限分配</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="nav-tabs-custom">
+                {% if p_role_list %}
+                <ul class="nav nav-tabs">
+                    {% for item in p_role_list %}
+                    <li  {% if item.id == sc['role_pid'] %} class="active" {% endif %}>
+                        <a class="nav-link" href="{{ GlobalUrlService.buildHomeUrl('/rbac/grant/assign') }}?role_pid={{ item.id }}">{{ item.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                {% if sub_role_list %}
+                <div class="tab-content">
+                    {% for item in sub_role_list %}
+                        <a href="{{ GlobalUrlService.buildHomeUrl('/rbac/grant/assign') }}?role_pid={{ item.pid }}&role_id={{ item.id }}"
+                           class="btn {% if item.id == sc['role_id'] %} label-info {% else %} label-default {% endif %}">{{ item.name }}</a>
+                    {% endfor %}
+                    <br/><br/>
+                    人员：
+                    {% for item in user_list %}
+                    <span class="label label-success">{{ item.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12">
+            <form id="grant-action" style="width: 100%;">
+                <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th width="20%">一级模块</th>
+                    <th width="40%">二级模块</th>
+                    <th width="40%">权限</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if list %}
+                {% for item in list.values() %}
+                    <tr>
+                        <td>{{ item["name"] }}</td>
+                        <td class="act_wrap" colspan="2" style="padding: 0;">
+                            <table class="table table-bordered" style="margin-bottom: 0;">
+                                {% for item_level2 in item['sub'].values() %}
+                                    {% for item_level3 in item_level2['act_list'] %}
+                                        <tr>
+                                            {% if( loop.index0 == 0 ) %}
+                                            <td style="width: 50%;" rowspan='{{ item_level2["counter"] }}'>{{ item_level2["name"] }}</td>
+                                            {% endif %}
+                                            <td  class="pl-1 {% if item_level3.is_important == 1 %} bg-danger {% endif %}"  >
+                                                <label class="mb-0" style="width: 100%;">
+                                                    <input style="zoom:140%;" type="checkbox"  name="action_ids[]" value="{{ item_level3['id'] }}"
+                                                        {% if item_level3.id in owned_act_ids %} checked {% endif %} >
+                                                    {{ item_level3['name'] }}
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+                <tr>
+                    <td colspan="3" class="text-center">
+                        <input type="hidden" name="role_id" value="{{ sc['role_id'] }}">
+                        <button type="button" class="btn btn-primary btn-block btn-lg save">保存</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{%block js %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/rbac/grant/assign.js') }}"></script>
+{% endblock %}

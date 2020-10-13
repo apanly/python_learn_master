@@ -1,0 +1,80 @@
+<div class="modal-dialog grant_set_wrap" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close l-close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">设置权限</h4>
+        </div>
+        <div class="modal-body pb-0">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">一级菜单</label>
+                    <div class="col-md-10">
+                        <input type="text" name="level1_name" class="form-control" value="{{ info.level1_name }}" placeholder="请输入一级菜单名称~~">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">一级权重</label>
+                    <div class="col-md-10">
+                        <select class="form-control" name="level1_weight">
+                            {% for _key in weight_list %}
+                                <option value="{{_key}}" {% if _key == info.level1_weight  %} selected {% endif %}>{{_key}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">二级菜单</label>
+                    <div class="col-md-10">
+                        <input type="text" name="level2_name" class="form-control" value="{{ info.level2_name }}" placeholder="请输入二级菜单名称~~">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">二级权重</label>
+                    <div class="col-md-10">
+                         <select class="form-control" name="level2_weight">
+                            {% for _key in weight_list %}
+                                <option value="{{_key}}" {% if _key == info.level2_weight  %} selected {% endif %}>{{_key}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">权限名称</label>
+                    <div class="col-md-10">
+                        <input type="text" name="name" class="form-control" value="{{ info.name }}" placeholder="请输入权限名称~~">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">权限权重</label>
+                    <div class="col-md-10">
+                         <select class="form-control" name="weight">
+                            {% for _key in weight_list %}
+                                <option value="{{_key}}" {% if _key == info.weight  %} selected {% endif %}>{{_key}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">URL</label>
+                    <div class="col-md-10">
+                        <textarea name="url" class="form-control" rows="4" placeholder="请输入URL，一行一个~~">{% autoescape False %}{{ info.url | replace(',','\n') }}{% endautoescape %}</textarea>
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    <input type="hidden" name="id" value="{{ info.id }}">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default l-close" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary save">确认</button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/rbac/grant/set.js') }}"></script>

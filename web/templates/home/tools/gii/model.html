@@ -1,0 +1,63 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>Model 生成器
+        <a href="{{ GlobalUrlService.buildHomeUrl('/tools/gii/index') }}"
+           class="pull-right">
+            返回
+        </a>
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6 col-md-lg-3 col-lg-6">
+            <div class="box gii_model_wrap">
+                    <div class="box-header">
+                        <h3 class="box-title">Model 生成器</h3>
+                    </div>
+                    <div class="box-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label class="help" data-toggle="tooltip" data-placement="right"
+                                       title="这里是数据库里表的名称，例如user">表</label>
+                                <select class="form-control" name="table">
+                                    <option value="">请选择表</option>
+                                    {% for _table_name in table_list %}
+                                        <option value="{{_table_name}}" >{{_table_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="help" data-toggle="tooltip" data-placement="right"
+                                       title="这里是model存放的路径，这里填写相对路径">路径</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="input-group-text prefix_path">{{ default_path_prefix }}</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="path" placeholder="请输入路径，例如rbac">
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label>预览：<span class="preview_path"></span></label>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="box-footer">
+                        <button class="btn btn-block btn-primary save">确定</button>
+                    </div>
+
+                </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{%block js %}
+{% autoescape false %}
+    {{ StaticPluginsHelper.select2() }}
+{% endautoescape %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/tools/gii/model.js') }}"></script>
+{% endblock %}

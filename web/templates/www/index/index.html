@@ -1,0 +1,31 @@
+{% extends "www/index/layout.html" %}
+
+{% block content %}
+<div class="row">
+
+    <!--增加工具使用 例如OCR、下载视频等等-->
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">网址导航</div>
+             <table class="table">
+                {% for idx in tr_list %}
+                    {% set tr_www_list = www_list[ ( idx - 1 )*2 : idx * 2 ] %}
+                 <tr>
+                     {% for item in tr_www_list %}
+                     <td>
+                         <span class="label label-{{ CommonConstant.link_type_map[ item.type ]['class'] }}">{{ CommonConstant.link_type_map[ item.type ]['title'] }}</span>
+                        <a target="_blank" href="{{ item.url}}">{{ item.title}}</a>
+                     </td>
+                     {% endfor %}
+                  </tr>
+                 {% endfor %}
+             </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/www/index/calendar.js') }}"></script>
+{% endblock %}
+

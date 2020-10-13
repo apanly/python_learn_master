@@ -1,0 +1,27 @@
+<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="{{ GlobalUrlService.buildNull() }}">
+    <i class="fa fa-bell-o"></i>
+    {% if total %}
+    <span class="label label-warning show_count">{{ total }}</span>
+    {% endif %}
+</a>
+
+<ul class="dropdown-menu">
+    {% if list %}
+    <li>
+        <ul class="menu">
+        {% for item in list %}
+             <li>
+                <a href="{{ GlobalUrlService.buildNull() }}" data-stop-propagation="true"
+                   data-id="{{ item.id }}" data-html="true" data-toggle="tooltip" data-placement="left" title="{{ item.content }}">
+                    <span class="label label-info">{{ item.title }}</span>
+                    <span class="pull-right">{{ item.created_time }}</span>
+                </a>
+             </li>
+        {% endfor %}
+        </ul>
+    </li>
+    {% endif %}
+    <li class="footer">
+        <a href="{{ GlobalUrlService.buildHomeUrl('/profile/news') }}">查看全部</a>
+    </li>
+</ul>

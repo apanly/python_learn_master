@@ -1,0 +1,36 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>个人信息
+            <a class="btn btn-link pull-right" data-toggle="tooltip" title="系统不存储任何密码，使用的就是您邮箱的授权码进行登录的">重置密码</a>
+            <a class="btn btn-link pull-right set_info">修改信息</a>
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <table class="table table-bordered table-hover">
+                <tbody>
+                <tr>
+                    <td>姓名</td>
+                    <td>{{ info.name }}</td>
+                    <td>邮箱（登录用户名）</td>
+                    <td>{{ info.email }}</td>
+                </tr>
+                <tr>
+                    <td>最新更新时间</td>
+                    <td>{{ info.updated_time }}</td>
+                    <td>创建时间</td>
+                    <td>{{ info.created_time }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{%block js %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/user/profile/index.js') }}"></script>
+{% endblock %}

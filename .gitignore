@@ -1,0 +1,13 @@
+virtualenv/*
+venv/*
+.DS_Store
+*.pyc
+logs/*
+test/*
+push.sh
+config/local_setting.py
+config/hsh_setting.py
+config/pro_setting.py
+config/test_setting.py
+push.sh
+todolist.md

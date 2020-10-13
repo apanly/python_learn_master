@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{{ config['APP_NAME'] }}网址之家{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <link rel="icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <!-- Le styles -->
+    <link href="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v3/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ GlobalUrlService.buildStaticResUrl('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ GlobalUrlService.buildWWWStaticUrl('/css/www/index/app.css') }}" rel="stylesheet">
+    {%block css %}{% endblock %}
+</head>
+<body>
+<div class="container-fluid">
+    <div class="page-header text-center" style="margin: 10px 0 ;">
+        <h1>{{ config['APP_NAME'] }}网址之家</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" style="padding-left: 0;">
+         {% include 'www/index/side.html' %}
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-9 col-md-9">
+             {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+<!--隐藏一些东西-->
+<div class="hidden hidden_val_wrap">
+    <input name="domain" value="{{ config['DOMAIN']['www'] }}"/>
+</div>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v3/js/bootstrap.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/layer/layer.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/common.js') }}"></script>
+{%block js %}{% endblock %}
+</body>
+</html>

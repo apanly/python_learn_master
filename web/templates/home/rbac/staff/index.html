@@ -1,0 +1,96 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>员工管理</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="box">
+                <div class="box-header with-border">
+                     <div class="row">
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                            <form class="form-inline wrap_search">
+                                <div class="form-group">
+                                    <input type="text" class="form-control col-sm-12 col-md-3 mb-2 mr-2"  name="kw" placeholder="请输入搜索关键词" value="{{sc['kw']}}">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">搜索</button>
+                                </div>
+                                <a class="btn btn-link" href="{{ GlobalUrlService.buildHomeUrl('/rbac/staff/index') }}">重置搜索</a>
+                                {% if set_flag %}
+                                <a class="btn btn-primary pull-right add_staff">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>员工
+                                </a>
+                                {% endif %}
+                            </form>
+                        </div>
+                     </div>
+                </div>
+                <div class="box-body table-responsive no-padding staff_list_wrap" >
+                    <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th width="6%">ID</th>
+                                    <th width="6%">姓名</th>
+                                    <th>邮箱</th>
+                                    <th width="8%">职位</th>
+                                    <th width="6%">状态</th>
+                                    <th width="14%">创建时间</th>
+                                    <th width="14%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if list %}
+                                {% for item in list %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td class="overflow_dot">{{ item.name }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>
+                                        {% if item.role_id %}
+                                        {{ dept_map[ item.role_id ]['name'] }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="label {% if item.status == 1 %} label-success {% else %} label-danger {% endif %} ">
+                                        {{ CommonConstant.common_status_map[ item.status ] }}
+                                        </span>
+                                    </td>
+
+                                    <td>{{ item.created_time }}</td>
+                                    <td>
+                                        {% if set_flag %}
+                                        <a  class="btn btn-link edit_staff" data-id="{{ item.id }}">修改</a>
+                                        {% endif %}
+                                        {% if ops_flag %}
+                                            {%  if item.status == 1 %}
+                                                <a class="btn btn-link ops" data-id="{{ item.id }}" data-act="del">删除</a>
+                                            {% else %}
+                                                  <a class="btn btn-link ops" data-id="{{ item.id }}" data-act="recovery">恢复</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center">(＞﹏＜)没有数据</td>
+                                </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                </div>
+                <div class="box-footer clearfix">
+                    {% include 'common/pagenation.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{%block js %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/rbac/staff/index.js') }}"></script>
+{% endblock %}

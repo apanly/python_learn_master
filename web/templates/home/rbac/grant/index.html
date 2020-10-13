@@ -1,0 +1,91 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>
+            权限管理
+            {% if set_flag %}
+            <a type="button" class="btn btn-primary pull-right add_action">
+                <i class="fa fa-plus" aria-hidden="true"></i>权限
+            </a>
+            {% endif %}
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="box">
+                <div class="box-body table-responsive no-padding grant_list_wrap" >
+                    <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th width="4%">ID</th>
+                                    <th width="8%">一级模块</th>
+                                    <th width="8%">二级模块</th>
+                                    <th>权限</th>
+                                    <th>URL</th>
+                                    <th width="5%">一级<br/>权重</th>
+                                    <th width="5%">二级<br/>权重</th>
+                                    <th width="5%">权限<br/>权重</th>
+                                    <th width="5%">状态</th>
+                                    <th width="14%">创建时间</th>
+                                    <th width="16%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if list %}
+                                {% for item in list %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.level1_name }}</td>
+                                    <td>{{ item.level2_name }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{% autoescape False %}
+                                        {{ item.url | replace(',','<br/>') }}
+                                        {% endautoescape %}
+                                    </td>
+                                    <td>{{ item.level1_weight }}</td>
+                                    <td>{{ item.level2_weight }}</td>
+                                    <td>{{ item.weight }}</td>
+                                    <td>
+                                        <span class="label {% if item.status == 1 %} label-success {% else %} label-danger {% endif %} ">
+                                        {{ CommonConstant.common_status_map[ item.status ] }}
+                                        </span>
+                                    </td>
+
+                                    <td>{{ item.created_time }}</td>
+                                    <td>
+                                        {% if set_flag %}
+                                        <a class="btn btn-link edit_action" data-id="{{ item.id }}">修改</a>
+                                        <a class="btn btn-link edit_action" data-act="copy" data-id="{{ item.id }}">复制</a>
+                                        {% endif %}
+                                        {% if ops_flag %}
+                                            {% if item.status == 1 %}
+                                            <a class="btn btn-link ops" data-id="{{ item.id }}" data-act="del">删除</a>
+                                            {% else %}
+                                            <a class="btn btn-link ops" data-id="{{ item.id }}" data-act="recovery">恢复</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="11" class="text-center">(＞﹏＜)没有数据</td>
+                                </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                </div>
+                <div class="box-footer clearfix">
+                    {% include 'common/pagenation.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{%block js %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/rbac/grant/index.js') }}"></script>
+{% endblock %}

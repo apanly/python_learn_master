@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config['APP_NAME'] }}</title>
+    <link rel="shortcut icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <link rel="icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <link href="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v4/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ GlobalUrlService.buildStaticResUrl('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ GlobalUrlService.buildWWWStaticUrl('/css/home/user/util.css') }}" rel="stylesheet">
+    <link href="{{ GlobalUrlService.buildWWWStaticUrl('/css/home/user/icon-font.min.css') }}" rel="stylesheet">
+    <link href="{{ GlobalUrlService.buildWWWStaticUrl('/css/home/user/main.css') }}" rel="stylesheet">
+</head>
+<body>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-30 p-b-30">
+            <div class="login100-form login_wrap">
+                <span class="login100-form-title p-b-55">{{ config['APP_NAME'] }}</span>
+                <div class="login_wrap_email" style="width: 100%;">
+                    <div class="wrap-input100 validate-input m-b-16 ">
+                        <input class="input100" type="text" name="email" placeholder="请输入邮箱~~" value="">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <span class="lnr lnr-envelope"></span>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16">
+                        <input class="input100" type="password" name="pwd" placeholder="请输入邮箱授权码~~" value="">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <span class="lnr lnr-lock"></span>
+                        </span>
+                    </div>
+                    <div class="container-login100-form-btn p-t-25">
+                        <button class="login100-form-btn do_login">
+                            登录
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--隐藏一些东西-->
+<div style="display: none;"  class="hidden_val_wrap">
+    <input name="domain" value="{{ GlobalUrlService.buildHomeUrl('') }}"/>
+</div>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v4/popper.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v4/bootstrap.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/layer/layer.js') }}"></script>
+
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/common.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/common.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/user/login.js') }}"></script>
+</body>
+</html>

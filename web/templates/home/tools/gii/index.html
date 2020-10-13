@@ -1,0 +1,40 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h2>Welcome to Gii <span class="text-muted">a magical tool that can write code for you</span></h2>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <div class="box box-primary box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Model 生成器</h3>
+                </div>
+                <div class="box-body">
+                    <p>帮助生成指定数据库表的Model，本功能依赖插件 flask-sqlacodegen，请确保已安装</p>
+                </div>
+                <div class="box-footer clearfix">
+                   <a href="{{ GlobalUrlService.buildHomeUrl('/tools/gii/model') }}" class="btn btn-primary pull-right">开始</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <div class="box box-primary box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Job 生成器</h3>
+                </div>
+                <div class="box-body">
+                    <p>帮助快速生成一个Job基础类，研发就只用专注写逻辑就好了</p>
+                </div>
+                <div class="box-footer clearfix">
+                   <a href="{{ GlobalUrlService.buildHomeUrl('/tools/gii/job') }}" class="btn btn-primary pull-right">开始</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{%block js %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/tools/gii/index.js') }}"></script>
+{% endblock %}

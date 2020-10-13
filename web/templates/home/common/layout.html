@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ config['APP_NAME'] }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <link rel="icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v3/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ GlobalUrlService.buildStaticResUrl('/font-awesome/v4.7/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ GlobalUrlService.buildStaticResUrl('/AdminLTE/dist/css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="{{ GlobalUrlService.buildStaticResUrl('/AdminLTE/dist/css/skins/_all-skins.min.css') }}">
+
+    <link href="{{ GlobalUrlService.buildWWWStaticUrl('/css/home/common.css') }}" rel="stylesheet">
+    {%block css %}{% endblock %}
+</head>
+<!--
+演示主题
+skin-purple 紫色
+skin-red 酒红色
+skin-yellow 黄色
+skin-blue 黑色（原蓝色被CSS覆盖了)
+-->
+<body class="sidebar-mini skin-purple">
+<div class="wrapper">
+    <!-- 头部内容 -->
+    <header class="main-header">
+        <!-- Logo -->
+        <a target="_blank" href="{{ GlobalUrlService.buildWWWUrl('/') }}" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>{{ config['APP_NAME'] }}</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>{{ config['APP_NAME'] }}</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="{{ GlobalUrlService.buildNull() }}" class="sidebar-toggle" data-toggle="push-menu"
+               role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+             <ul class="nav navbar-nav">
+                <li>
+                    <a href="{{ GlobalUrlService.buildHomeUrl('/') }}">
+                        首页
+                    </a>
+                </li>
+             </ul>
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!--通知闹铃预留位置start-->
+                    <li class="dropdown notifications-menu"></li>
+                    {% if current_user %}
+                    <li class="dropdown user user-menu">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{{ GlobalUrlService.buildStaticResUrl('/images/jixuejima/default_avatar') }}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">{{ current_user.name }}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ GlobalUrlService.buildHomeUrl('/profile/index') }}">个人信息</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ GlobalUrlService.buildHomeUrl('/profile/news') }}">我的消息</a>
+                            </li>
+
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ GlobalUrlService.buildHomeUrl('/user/logout') }}">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i>退出
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!--左侧导航栏-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree">
+            {% if menus %}
+                {% for _key,_item in menus.items() %}
+                    {% if not _item.hidden %}
+                    <li class="treeview menu_{{_key}}">
+                        <a href="{{ GlobalUrlService.buildNull() }}">
+                            <i class="fa fa-{{ _item['icon'] }}"></i>
+                            <span>{{ _item['title'] }}</span>
+                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            {% for _sub_item in _item['sub'] %}
+                            {% if not _sub_item.hidden %}
+                            <li>
+                                <a href="{{ GlobalUrlService.buildHomeUrl( _sub_item['url'] ) }}">
+                                    <i class="fa fa-circle-o"></i>{{ _sub_item['title'] }}
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </ul>
+        </section>
+    </aside>
+    <!-- 主要内容 -->
+    <div class="content-wrapper">
+       {% block content %}{% endblock %}
+    </div>
+    <!-- 底部 -->
+    <footer class="main-footer text-center">
+        <strong>Copyright © 2020 {{ config['APP_NAME'] }} . Power By <a target="_blank" href="http://www.jixuejima.cn">即学即码</a> . <a target="_blank" href="http://dcenter.jixuejima.cn/#/flask/v2/readme">文档教程中心</a> . All rights reserved. <b class="pull-right">版本：V2.0</b></strong>
+    </footer>
+</div>
+<!--包含一些统一底部的东西-->
+{% include "home/common/footer.html" %}
+
+<script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v3/js/bootstrap.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/AdminLTE/bower_components/fastclick/lib/fastclick.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/AdminLTE/dist/js/adminlte.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/plugins/layer/layer.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/common.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/common.js') }}"></script>
+{%block js %}{% endblock %}
+</body>
+
+</html>

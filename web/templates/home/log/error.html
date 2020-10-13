@@ -1,0 +1,73 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>错误日志</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="box">
+                <div class="box-header with-border">
+                     <div class="row">
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                             <form class="form-inline wrap_search">
+                                 <div class="form-group" style="width: 18%;">
+                                     <input type="text" class="form-control col-sm-12 col-md-3  mb-2 mr-2"  name="date_range_picker" placeholder="请选择日期" value="" autocomplete="off"  style="width: 100%;">
+                                    <input type="hidden" name="date_from" value="{{sc['date_from']}}">
+                                    <input type="hidden" name="date_to" value="{{sc['date_to']}}">
+                                 </div>
+                                 <div class="form-group">
+                                     <button type="submit" class="btn btn-primary">搜索</button>
+                                 </div>
+                                 <a class="btn btn-link" href="{{ GlobalUrlService.buildHomeUrl('/log/error') }}">重置搜索</a>
+                             </form>
+                        </div>
+                     </div>
+                </div>
+                <div class="box-body table-responsive no-padding" >
+                    <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th width="10%">ID</th>
+                                    <th width="10%">IP</th>
+                                    <th>请求URI</th>
+                                    <th width="40%">错误内容</th>
+                                    <th width="16%">时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if list %}
+                                {% for item in list %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.ip }}</td>
+                                    <td class="overflow_line">{{ item.request_uri }}</td>
+                                    <td class="overflow_line">{{ item.content }}</td>
+                                    <td>{{ item.created_time }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center">(＞﹏＜)没有数据</td>
+                                </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                </div>
+                <div class="box-footer clearfix">
+                    {% include 'common/pagenation.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{%block js %}
+{% autoescape false %}
+    {{ StaticPluginsHelper.daterangepicker() }}
+{% endautoescape %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/log/common.js') }}"></script>
+{% endblock %}

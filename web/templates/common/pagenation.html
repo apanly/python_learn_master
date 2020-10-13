@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-2">
+        <div class="pagination-count" style="line-height: 34px;" >
+        共{{ pages.total }}条记录 | 每页{{pages.page_size}}条
+        </div>
+    </div>
+    <div class="col-md-10">
+        <ul class="pagination  no-margin pull-right">
+            {% if pages.is_prev == 1 %}
+                <li >
+                    <a href="{{ GlobalUrlService.buildWWWUrl(pages.url,sc) }}&p=1"><span>首页</span></a>
+                </li>
+            {% endif %}
+
+            {% if pages.current > 1 %}
+            <li >
+                <a href="{{ GlobalUrlService.buildWWWUrl(pages.url,sc) }}&p={{ (pages.current - 1) }}">上一页</a>
+            </li>
+            {% endif %}
+
+            {% for idx in pages.range %}
+            {% if idx == pages.current %}
+            <li class="paginate_button page-item active">
+                <a href="{{ GlobalUrlService.buildNull() }}">{{ idx }}</a>
+            </li>
+            {% else %}
+            <li class="paginate_button page-item ">
+                <a href="{{ GlobalUrlService.buildWWWUrl(pages.url,sc) }}&p={{idx}}">{{ idx }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if pages.current < pages.total_pages %}
+            <li >
+                <a href="{{ GlobalUrlService.buildWWWUrl(pages.url,sc) }}&p={{ (pages.current + 1) }}">下一页</a>
+            </li>
+            {% endif %}
+
+            {% if pages.is_next == 1 %}
+            <li class="paginate_button page-item ">
+                <a href="{{ GlobalUrlService.buildWWWUrl(pages.url,sc) }}&p={{ pages.total_pages }}">尾页</a>
+            </li>
+            {% endif %}
+            </ul>
+    </div>
+</div>

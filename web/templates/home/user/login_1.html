@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config['APP_NAME'] }}</title>
+    <link rel="shortcut icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <link rel="icon" href="{{ GlobalUrlService.buildStaticResUrl('/images/weiyu/icon_32.png') }}">
+    <link href="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v4/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ GlobalUrlService.buildStaticResUrl('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <link href="{{ GlobalUrlService.buildWWWStaticUrl('/css/home/user/login_1.css') }}" rel="stylesheet">
+</head>
+<body>
+<div class="page login-page">
+    <div class="container d-flex align-items-center">
+        <div class="form-holder has-shadow">
+            <div class="row">
+                <!-- Logo & Information Panel-->
+                <div class="col-lg-6">
+                    <div class="info d-flex align-items-center">
+                        <div class="content">
+                            <div class="logo">
+                                <h1>欢迎登录</h1>
+                            </div>
+                            <p>{{ config['APP_NAME'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Form Panel    -->
+                <div class="col-lg-6 bg-white">
+                    <div class="form d-flex align-items-center">
+                        <div class="content">
+                            <div class="login_wrap_email login_wrap" id="loginFrom">
+                                <div class="form-group">
+                                    <input  type="text" name="email" placeholder="请输入邮箱~~" value="" class="input-material">
+                                </div>
+                                <div class="form-group">
+                                    <input  type="password" name="pwd" placeholder="请输入邮箱授权码~~" value="" class="input-material">
+                                </div>
+                                <button id="login" type="submit" class="btn btn-primary do_login" style="width: 100%;">登录</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--隐藏一些东西-->
+<div style="display: none;"  class="hidden_val_wrap">
+    <input name="domain" value="{{ GlobalUrlService.buildHomeUrl('') }}"/>
+</div>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v4/popper.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/bootstrap/v4/bootstrap.min.js') }}"></script>
+<script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/layer/layer.js') }}"></script>
+
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/common.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/common.js') }}"></script>
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/user/login.js') }}"></script>
+</body>
+</html>

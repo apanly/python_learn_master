@@ -1,0 +1,64 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>Job 生成器
+        <a href="{{ GlobalUrlService.buildHomeUrl('/tools/gii/index') }}"
+           class="pull-right">
+            返回
+        </a>
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6 col-md-lg-3 col-lg-6">
+            <div class="box gii_job_wrap">
+                    <div class="box-header">
+                        <h3 class="box-title">Job 生成器</h3>
+                    </div>
+                    <div class="box-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label class="help" data-toggle="tooltip" data-placement="right"
+                                       title="这里是文件名，例如monitor">名称</label>
+                                <input type="text" class="form-control" name="filename" placeholder="请输入文件名，例如monitor">
+                            </div>
+                            <div class="form-group">
+                                <label class="help" data-toggle="tooltip" data-placement="right"
+                                       title="对Job功能描述">功能描述</label>
+                                <input type="text" class="form-control" name="note" placeholder="请输入功能描述，可不写~~">
+                            </div>
+                            <div class="form-group">
+                                <label class="help" data-toggle="tooltip" data-placement="right"
+                                       title="这里是Job存放的路径，这里填写相对路径">路径</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="input-group-text prefix_path">{{ default_path_prefix }}</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="path" placeholder="请输入路径，例如rbac">
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <label>预览：<span class="preview_path"></span></label>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="box-footer">
+                        <button class="btn btn-block btn-primary save">确定</button>
+                    </div>
+
+                </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{%block js %}
+{% autoescape false %}
+    {{ StaticPluginsHelper.select2() }}
+{% endautoescape %}
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/tools/gii/job.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "home/common/layout.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="page-header">
+        <h3>错误提示</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="alert alert-danger alert-dismissible">
+                <h1 class="text-center">Oops</h1>
+                <h1>对不起 你暂时无权访问 该页面，请联系管理员处理~~</h1>
+                <h2>访问页面：{{ msg }}</h2>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

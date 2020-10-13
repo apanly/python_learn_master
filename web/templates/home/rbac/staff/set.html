@@ -1,0 +1,48 @@
+<div class="modal-dialog staff_set_wrap" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close l-close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">设置员工</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">姓名</label>
+                    <div class="col-md-10">
+                        <input type="text" name="name" class="form-control" value="{{ info.name }}" placeholder="请输入姓名~~">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">邮箱</label>
+                    <div class="col-md-10">
+                        <input type="text" name="email" class="form-control" value="{{ info.email }}" placeholder="请输入邮箱，登录用户名~~">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">部门</label>
+                    <div class="col-md-10">
+                        <select class="form-control" name="role_id">
+                            <option value="0">请选择部门（顶级部门不可选择）</option>
+                            {% for _item in dept_list.values() %}
+                                <option value="0" disabled>{{ _item['name'] }}</option>
+                                {% for _item_sub in _item['sub'] %}
+                                <option {% if  _item_sub.id == info.role_id %} selected {% endif %} value="{{ _item_sub['id'] }}">&nbsp;&nbsp;&nbsp;&nbsp;{{ _item_sub['name'] }}</option>
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    <input type="hidden" name="id" value="{{ info.id }}">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default l-close" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary save">确认</button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/rbac/staff/set.js') }}"></script>
