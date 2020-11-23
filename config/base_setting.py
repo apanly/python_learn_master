@@ -49,8 +49,8 @@ IGNORE_CHECK_LOGIN_URLS = [
 ##HTTP请求超时时间
 HTTP_TIMEOUT = 5
 
-##日志存放位置
-LOG_ROOT_PATH = "/data/logs/learn_master"
+##日志存放位置 一定不能放在tmp目录 tmp有自己的回收机制了
+LOG_ROOT_PATH = "/data/www/logs/learn_master"
 ##版本号文件
 RELEASE_PATH = "/data/www/release_version/learn_master"
 
