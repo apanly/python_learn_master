@@ -11,7 +11,7 @@ from common.services.CommonConstant import CommonConstant
 from common.services.CurrentUserService import CurrentUserService
 from common.services.GlobalUrlService import GlobalUrlService
 from common.services.RBACService import RBACService
-from common.services.MenuServiceService import MenuServiceService
+from common.services.MenuService import MenuService
 
 '''
 Home后台授权拦截器，一般做用户登录判断
@@ -48,7 +48,7 @@ def before_request():
         response = make_response(redirect( GlobalUrlService.buildHomeUrl("/error/ban",{ "msg" : path }) ))
         return response
 
-    g.menus = MenuServiceService.getMenu()
+    g.menus = MenuService.getMenu()
     AppLogService.addAccessLog( user_info )
     return
 

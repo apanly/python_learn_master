@@ -4,10 +4,10 @@ from application import app
 from common.services.RBACService import RBACService
 
 
-class MenuServiceService( BaseService):
+class MenuService( BaseService):
     @staticmethod
     def getMenu():
-        menus = MenuServiceService.definedMenu()
+        menus = MenuService.definedMenu()
         prefix = '/home'
         for _key, _item in menus.items():
             #如果强制设置了不显示，那就不要在判断
