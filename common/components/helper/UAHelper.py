@@ -19,7 +19,7 @@ class UAHelper( BaseService):
         ]
 
         pattern = re.compile('%s' % "|".join( mobile_feature) )
-        if pattern.search( ua ) != None or "ipad" not in ua:
+        if pattern.search( ua ) != None  and "ipad" not in ua:
             return False
         return True
 
