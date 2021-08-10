@@ -2,6 +2,7 @@
 from common.components.helper.DateHelper import DateHelper
 from common.services.BaseService import BaseService
 from application import app
+from flask import request
 import os,urllib
 
 class GlobalUrlService( BaseService):
@@ -33,6 +34,10 @@ class GlobalUrlService( BaseService):
     @staticmethod
     def buildNull():
         return "javascript:void(0);"
+
+    @staticmethod
+    def buildCurrentPageUrl(params={}):
+        return GlobalUrlService.buildWWWUrl(request.path, params)
 
     @staticmethod
     def getReleaseVersion():

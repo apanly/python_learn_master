@@ -140,7 +140,7 @@ class JobTask( BaseJob ):
     def run(self, params):
         app.logger.info( "执行命令是：{0}" )
         app.logger.info( "这是自动生成的job" )
-        return True        
+        return self.exitOK()        
         '''.format( note,tips )
 
 
