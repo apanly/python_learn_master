@@ -1,4 +1,4 @@
-Flask
+Flask==1.1.4
 mysqlclient
 Flask-Script
 Flask-Assets

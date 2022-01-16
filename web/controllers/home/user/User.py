@@ -3,6 +3,7 @@ from application import app
 from flask import Blueprint,jsonify,make_response,request,redirect,g
 import json,smtplib
 
+from common.components.helper.DateHelper import DateHelper
 from common.components.helper.UtilHelper import UtilHelper
 from common.models.rbac.User import ( User )
 from common.services.CommonConstant import CommonConstant
@@ -52,7 +53,13 @@ def Login():
     next_url = GlobalUrlService.buildHomeUrl( "/" )
 
     response = make_response(json.dumps({ 'code': 200, 'msg': '登录成功~~','data':{ "next_url":next_url } }))
-    response.set_cookie( CommonConstant.AUTH_COOKIE_NAME, '%s#%s' % ( CurrentUserService.userAuthToken(user_info), user_info.id),  60 * 60 * 24 * 120)  # 保存120天
+    # 确保隔日凌晨一点cookie必须失效
+    today_last_timestamp = DateHelper.getTimestamps(DateHelper.getCurrentTime('%Y-%m-%d 23:59:59'))
+    today_now_timestamp = DateHelper.getTimestamps(DateHelper.getCurrentTime())
+    expired_time = today_last_timestamp - today_now_timestamp + 3600
+    response.set_cookie(CommonConstant.AUTH_COOKIE_NAME,
+                        '%s#%s' % (CurrentUserService.userAuthToken(user_info), user_info.id), expired_time
+                        , httponly=True)
     return response
 
 @route_home_user.route("/logout")
