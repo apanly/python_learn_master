@@ -11,7 +11,7 @@ def error_404(e):
 
 @app.errorhandler(405) #捕获应用的异常
 def error_404(e):
-    return UtilHelper.renderErrJSON( "所有请求必须POST请求" )
+    return UtilHelper.renderErrJSON( "请求必须POST请求" )
 
 @app.errorhandler(500) #捕获应用的异常
 def error_500(e):

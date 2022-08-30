@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from application import app,manager
-from flask_script import Command,Option
-import argparse,sys,traceback,os,importlib
+from application import app
+import traceback,os,importlib
 
 '''
 python manage runjob -m Test  (  jobs/tasks/Test.py )
@@ -19,22 +18,10 @@ python manage runjob -m test/Index (  jobs/tasks/test/Index.py )
 * metavar - useage中显示的参数的名称.
 * dest - 要添加到解析参数返回的对象中的属性的名称.
 '''
-class runJob( Command ):
+class runJob():
 
-    capture_all_args = True
     def run(self,*args,**kwargs):
-        args = sys.argv[2:]
-        parser = argparse.ArgumentParser( add_help = True )
-
-        parser.add_argument("-m","--name",dest = "name",metavar = "name", help="指定job名",required=True)
-        parser.add_argument("-a","--act",dest = "act",metavar = "act", help="Job动作",required=False)
-        parser.add_argument("-p","--param",dest = "param",nargs = "*", metavar = "param",help="业务参数",default = '',required=False)
-        params = parser.parse_args( args )
-        params_dict = params.__dict__
-        ret_params = {}
-        for item in params_dict.keys():
-            ret_params[ item ] = params_dict[ item ]
-
+        ret_params = kwargs
         if "name" not in ret_params or not ret_params['name']:
             return self.tips()
 
@@ -68,9 +55,7 @@ class runJob( Command ):
 '''
 列出所有的Job
 '''
-class jobList( Command ):
-    capture_all_args = True
-
+class jobList( ):
     def run(self, *args, **kwargs):
         root_path = app.root_path + "/jobs/tasks/"
         job_names = self.iterFiles( root_path )

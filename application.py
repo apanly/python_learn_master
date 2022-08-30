@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
-from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 import sys,os
 
@@ -34,7 +33,3 @@ root_path = os.path.abspath( os.path.join(os.getcwd(), ".") )
 
 db = SQLAlchemy()
 app = Application( __name__ ,template_folder = None ,static_folder = None,root_path = root_path )
-manager = Manager( app )
-
-
-

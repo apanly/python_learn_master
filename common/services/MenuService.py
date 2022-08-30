@@ -2,6 +2,7 @@
 from common.services.BaseService import BaseService
 from application import app
 from common.services.RBACService import RBACService
+from common.components.helper.UtilHelper import UtilHelper
 
 
 class MenuService( BaseService):
@@ -64,7 +65,7 @@ class MenuService( BaseService):
         }
 
         ## 判断环境，如果环境在local，dev这些可以显示gii工具
-        if app.config.get("jxjm_env","") in [ "local","dev" ]:
+        if not UtilHelper.isProdEnv():
             menus['tools'] = {
                 "title": "系统工具",
                 "icon": "th-large",

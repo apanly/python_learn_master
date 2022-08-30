@@ -3,6 +3,7 @@
 from common.services.BaseService import BaseService
 from flask import render_template,g,jsonify,request
 from common.components.helper.UAHelper import UAHelper
+from application import app
 
 class UtilHelper( BaseService):
 
@@ -54,8 +55,13 @@ class UtilHelper( BaseService):
     def isPC():
         return UAHelper.isPC()
 
+    @staticmethod
+    def isProdEnv():
+        return not app.config.get("jxjm_env", "") in ["local", "dev"]
 
-
+    @staticmethod
+    def getEnv():
+        return app.config.get("jxjm_env", "")
 
     '''
     自定义分页类

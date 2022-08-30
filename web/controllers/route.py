@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from application import  app
+from common.components.helper.UtilHelper import UtilHelper
+
 '''
 蓝图功能，对所有的url进行蓝图功能配置
 '''
@@ -22,7 +24,6 @@ MODULES = (
     ( route_www_index, '/' ),
     ( route_static, '/static' ),
     ( route_home_index, '/home' ),
-    ( route_home_gii, '/home/tools/gii' ),
     ( route_home_error, '/home/error' ),
     ( route_home_log, '/home/log' ),
     ( route_home_staff, '/home/rbac/staff' ),
@@ -40,3 +41,10 @@ def setting_modules(app, modules):
         app.register_blueprint(module, url_prefix=url_prefix)
 
 setting_modules(app, MODULES)
+
+
+if not UtilHelper.isProdEnv():
+    DEV_TOOLS_MODULES = (
+        (route_home_gii, '/home/tools/gii'),
+    )
+    setting_modules(app, DEV_TOOLS_MODULES)
