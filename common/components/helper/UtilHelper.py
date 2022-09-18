@@ -66,7 +66,6 @@ class UtilHelper( BaseService):
     '''
     自定义分页类
     '''
-
     @staticmethod
     def iPagination(params):
         import math

@@ -6,17 +6,6 @@ import traceback,os,importlib
 python manage runjob -m Test  (  jobs/tasks/Test.py )
 python manage runjob -m test  (  jobs/tasks/test.py )
 python manage runjob -m test/Index (  jobs/tasks/test/Index.py )
-* name or flags - 名称或选项字符串列表, e.g. foo or -f, --foo.
-* action - 参数如果定义了选项，表示这是一个操作参数，至于调用时做哪种操作由用户输入或者default决定。
-* nargs - 应该使用的命令行参数数。.
-* const - 某些动作或参数个数的常数值。.
-* default - 如果命令行没有对输入这个参数相应的值，则此参数用default给出的值.
-* type -将用户输入的值转化为哪种类型.
-* choices - 参数可输入值的范围或选择.
-* required - 命令行输入的值是否可以被忽略（布尔量）.
-* help - 参数的简要描述.
-* metavar - useage中显示的参数的名称.
-* dest - 要添加到解析参数返回的对象中的属性的名称.
 '''
 class runJob():
 
