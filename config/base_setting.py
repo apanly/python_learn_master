@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 APP_NAME = "即学即码实验室"
-APP_VERSION = "V1.0"
+APP_VERSION = "V3.0"
 SERVER_PORT = 8889
 API_SERVER_PORT = 8888
 
