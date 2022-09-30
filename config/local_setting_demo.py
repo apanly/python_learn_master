@@ -17,3 +17,17 @@ DOMAIN = {
     "resource" : "http://127.0.0.1:" + str( SERVER_PORT ) + "/static/cdn"
 }
 
+
+##登录方式配置项
+LOGIN_TYPE_MAP = {
+    "open_wechat":True,
+    "mp_wechat": False,
+    "email" : True
+}
+
+##开发平台登录配置项 这里申请：https://open.weixin.qq.com/
+WECHAT_OPEN = {
+    "app_id" : "xxxxxxx",
+    "sec_key" : "xxxxx"
+}
+

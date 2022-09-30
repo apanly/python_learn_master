@@ -13,6 +13,7 @@ class Application(Flask):
         ops_config = os.environ.get("ops_config","local")
         config_path = '%s/config/%s_setting.py'%( root_path,ops_config.strip() )
         if os.path.exists( config_path  ):
+            print( f"\033[1;35m * jixuejima.com loading config {config_path}\033[0m" )
             self.config.from_pyfile( config_path )
 
         ##设置环境

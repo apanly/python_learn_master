@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="form-bottom">
-                        <div class="login-form login_wrap">
+                        <div class="login-form login_wrap login_wrap_email" style="display: none;">
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">Username</label>
                                 <input type="text" name="email" placeholder="请输入邮箱~~" value="" class="form-username form-control" id="form-username">
@@ -39,8 +39,30 @@
                                 <input type="password" name="pwd" placeholder="请输入邮箱授权码~~" value="" class="form-password form-control" id="form-password">
                             </div>
                             <button type="submit" class="btn do_login" style="width: 100%;">登录</button>
+                            {% if config['LOGIN_TYPE_MAP']['open_wechat'] %}
                             <div class="form-group" style="text-align: center;margin-top: 5px;">
-                                Power By <a target="_blank" href="http://www.jixuejima.cn">即学即码</a> . <a target="_blank" href="http://dcenter.jixuejima.cn/#/flask/v2/readme">使用文档教程</a>
+                                换种方式
+                            </div>
+                            <div class="form-group" style="text-align: center;margin-top: 5px;">
+                                <a href="{{ GlobalUrlService.buildNull() }}" class="btn-face switch_wechat">
+                                    <i class="fa fa-weixin"></i>
+                                    微信扫码登录
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="login-form login_wrap login_wrap_wechat" style="display: none;text-align: center;">
+                            <div class="form-group" id="login_wrap_wechat" style="margin-bottom: 5px;">
+
+                            </div>
+                            <div class="form-group" style="text-align: center;margin-top: 2px;">
+                                换种方式
+                            </div>
+                            <div class="form-group" style="text-align: center;margin-top: 2px;">
+                                <a href="{{ GlobalUrlService.buildNull() }}" class="btn-face switch_email">
+                                    <i class="fa fa-user"></i>
+                                    用户名密码登录
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -54,6 +76,9 @@
 <!--隐藏一些东西-->
 <div class="hidden hidden_val_wrap">
     <input name="domain" value="{{ GlobalUrlService.buildHomeUrl('') }}"/>
+    {% if config['LOGIN_TYPE_MAP']['open_wechat'] %}
+    <input name="wechat_open_appid" value="{{ config['WECHAT_OPEN']['app_id'] }}"/>
+    {% endif %}
 </div>
 
 <script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/jquery/jquery-3.2.1.min.js') }}"></script>
@@ -61,6 +86,9 @@
 <script src="{{ GlobalUrlService.buildStaticResUrl('/plugins/layer/layer.js') }}"></script>
 <script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/common.js') }}"></script>
 <script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/common.js') }}"></script>
+{% if config['LOGIN_TYPE_MAP']['open_wechat'] %}
+<script src="//res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js?version=20210129135132"></script>
+{% endif %}
 <script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/user/login.js') }}"></script>
 </body>
 </html>

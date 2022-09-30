@@ -64,3 +64,7 @@ class CommonConstant(BaseService):
         }
     }
 
+    ###登录类型
+    LOGIN_TYPE_EMAIL = 1
+    LOGIN_TYPE_WECHAT_OPEN = 2
+

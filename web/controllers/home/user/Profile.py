@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint,request
 from application import  db
+from common.components.helper.ConfigHelper import ConfigHelper
 from common.components.helper.UtilHelper import UtilHelper
 from common.components.helper.ValidateHelper import ValidateHelper
 from common.models.notice.UserNews import UserNews
+from common.models.oauth.UserOauthBind import UserOauthBind
 from common.services.CommonConstant import CommonConstant
 from common.services.CurrentUserService import CurrentUserService
 from common.models.rbac.User import ( User )
@@ -13,7 +15,16 @@ route_home_profile = Blueprint('home_profile_page', __name__)
 @route_home_profile.route("/")
 @route_home_profile.route("/index")
 def home_index():
-    return UtilHelper.renderView( "home/user/profile/index.html",{ "info":CurrentUserService.getInfo() }  )
+    ##查看是否绑定微信扫码
+    has_bind_open_wechat = UserOauthBind.query.filter_by(user_id=CurrentUserService.getUid()
+                                                         ,
+                                                         type=ConfigHelper.getConstantConfig('LOGIN_TYPE_WECHAT_OPEN'),
+                                                         status=ConfigHelper.getConstantConfig(
+                                                             'default_status_true')).count()
+    return UtilHelper.renderView("home/user/profile/index.html", {
+        "info": CurrentUserService.getInfo(),
+        "has_bind_open_wechat": has_bind_open_wechat
+    })
 
 @route_home_profile.route("/set_info",methods=[ "GET","POST" ])
 def set_info():
@@ -96,6 +107,18 @@ def news_ops():
 @route_home_profile.route("/news/batch_ops",methods=[ "POST" ])
 def news_batch_ops():
     UserNews.query.filter_by( uid = CurrentUserService.getUid() ).update({"status": CommonConstant.default_status_true })
+    db.session.commit()
+    return UtilHelper.renderSucJSON()
+
+
+@route_home_profile.route("/bind_open_wechat",)
+def bind_open_wechat():
+    return UtilHelper.renderPopView("home/user/profile/bind_open_wechat.html")
+
+@route_home_profile.route("/unbind_open_wechat",methods=[ "POST" ])
+def unbind_open_wechat():
+    UserOauthBind.query.filter_by(user_id=CurrentUserService.getUid(),type=ConfigHelper.getConstantConfig('LOGIN_TYPE_WECHAT_OPEN'))\
+        .update({"status": ConfigHelper.getConstantConfig('default_status_false')})
     db.session.commit()
     return UtilHelper.renderSucJSON()
 

@@ -125,7 +125,18 @@ CREATE TABLE `user_news` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户站内消息表';
 
 
-
+CREATE TABLE `user_oauth_bind` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
+  `openid` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '第三方id',
+  `unionid` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '第三方用户统一标识id',
+  `type` tinyint unsigned NOT NULL DEFAULT '1' COMMENT '绑定类型 1：邮箱登录  2：微信开放平台 ',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态 1：有效 0：无效',
+  `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_user_id_openid` (`user_id`,`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户第三方登录绑定关系';
 
 
 ```

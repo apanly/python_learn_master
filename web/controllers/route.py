@@ -18,7 +18,7 @@ from web.controllers.home.rbac.dept import route_home_dept
 from web.controllers.home.rbac.grant import route_home_grant
 from web.controllers.home.log.log import route_home_log
 from web.controllers.home.link.index import route_home_link
-
+from web.controllers.home.oauth.index import route_home_oauth_index
 
 MODULES = (
     ( route_www_index, '/' ),
@@ -32,6 +32,7 @@ MODULES = (
     ( route_home_link, '/home/link' ),
     ( route_home_user, '/home/user' ),
     ( route_home_profile, '/home/profile' ),
+    ( route_home_oauth_index, '/home/oauth' ),
 )
 
 

@@ -29,11 +29,13 @@ DOMAIN = {
 IGNORE_URLS_HOME = [
     "^/home/user/login",
     "^/home/user/logout",
+    "^/home/oauth/",
 ]
 
 ## 权限过滤的
 IGNORE_URLS_HOME_RRIVILEGE = [
     "^/home/error",
+    "^/home/profile",
 ]
 
 

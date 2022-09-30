@@ -56,7 +56,7 @@ def gii_model():
         f = open( model_path )
         ret = []
         ret.append( "# coding: utf-8\n" )
-        ret.append( "from application import db\n\n" )
+        ret.append( "from application import app,db\n\n" )
         ignore_kws = [ "from flask_sqlalchemy","from sqlalchemy","SQLAlchemy","coding: utf-8" ]
         line_break_kws = [ "\n","\r\n" ]
         for line in f.readlines():
@@ -80,16 +80,20 @@ def gii_model():
         for key in items:
             if hasattr(self, key):
                 setattr(self, key, items[key])
+                
+    def setAttrs(self,items:dict):
+        for key in items:
+            if hasattr(self, key):
+                setattr(self, key, items[key])
         '''
         f = open( model_path , "w", encoding="utf-8")
         f.write( "".join(ret) + common_funcs )
         f.flush()
         f.close()
     except Exception as e:
-        pass
+        return UtilHelper.renderSucJSON()
 
     return UtilHelper.renderSucJSON()
-
 
 @route_home_gii.route("/job",methods=[ "POST","GET" ])
 def gii_job():
@@ -122,8 +126,8 @@ def gii_job():
 # -*- coding: utf-8 -*-
 import logging
 from flask.logging import default_handler
-from jobs.BaseJob import BaseJob
-from application import app
+from jobs.tasks.BaseJob import BaseJob
+from application import app,db
 
 \'\'\'
 {0}
@@ -137,7 +141,7 @@ class JobTask( BaseJob ):
             '%(levelname)s %(asctime)s %(filename)s:%(funcName)s L%(lineno)s %(message)s')
         default_handler.setFormatter(logging_format)
 
-    def run(self, params):
+    def run(self, kwargs:dict):
         app.logger.info( "执行命令是：{0}" )
         app.logger.info( "这是自动生成的job" )
         return self.exitOK()        
@@ -149,6 +153,50 @@ class JobTask( BaseJob ):
         f.flush()
         f.close()
     except Exception as e:
-        pass
+        return UtilHelper.renderSucJSON()
+
+    return UtilHelper.renderSucJSON()
+
+
+@route_home_gii.route("/service",methods=[ "POST","GET" ])
+def gii_service():
+    default_path_prefix = "/common/services/"
+    if UtilHelper.isGet():
+        return UtilHelper.renderView( "/home/tools/gii/service.html",
+              { "default_path_prefix":default_path_prefix })
+
+    req = request.values
+
+    filename = req.get("filename", "").strip()
+    path = req.get("path", "").strip()
+    note = req.get("note", "").strip()
+
+    ##后面这里的数据库做成选择的，因为有多数据库的可能
+    folder_path = app.root_path + default_path_prefix + path
+    #不存在就新建
+    if not os.path.exists( folder_path ):
+        os.makedirs( folder_path )
+
+    filename = filename[0:1].capitalize()  + filename[1:] + "Service"
+    service_path = folder_path + "/" + filename + ".py"
+    try:
+        content = '''
+# -*- coding: utf-8 -*-
+from application import app,db
+from common.services.BaseService import BaseService
+
+\'\'\'
+{0}
+\'\'\'
+class {1}( BaseService ):
+    pass   
+            '''.format(note, filename)
+
+        f = open(service_path, "w", encoding="utf-8")
+        f.write(content)
+        f.flush()
+        f.close()
+    except Exception as e:
+        return UtilHelper.renderErrJSON( str(e) )
 
     return UtilHelper.renderSucJSON()

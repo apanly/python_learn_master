@@ -33,7 +33,7 @@ var gii_model_ops = {
             var path = path_target.val();
 
 
-            if (!common_ops.validate.length(table, 1, 30)) {
+            if (!common_ops.validate.length(table, 1)) {
                 common_ops.tip("请输入或者选择表~~", table_target);
                 return;
             }

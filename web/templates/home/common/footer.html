@@ -1,6 +1,9 @@
 <!--隐藏一些东西-->
 <div class="hidden hidden_val_wrap">
     <input name="domain" value="{{ GlobalUrlService.buildHomeUrl('') }}"/>
+    {% if config['LOGIN_TYPE_MAP']['open_wechat'] %}
+    <input name="wechat_open_appid" value="{{ config['WECHAT_OPEN']['app_id'] }}"/>
+    {% endif %}
 </div>
 <!--统一弹窗wrap-->
 <div class="modal fade" id="pop_layer" role="dialog" ></div>

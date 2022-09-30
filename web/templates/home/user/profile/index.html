@@ -4,6 +4,17 @@
 <section class="content">
     <div class="page-header">
         <h3>个人信息
+            {% if config['LOGIN_TYPE_MAP']['open_wechat'] %}
+                {% if has_bind_open_wechat %}
+                    <a class="btn btn-link unbind_wechat pull-right" href="{{ GlobalUrlService.buildNull() }}">
+                        <i class="fa fa-weixin" aria-hidden="true"></i>解绑微信
+                    </a>
+                {% else %}
+                    <a class="btn btn-link bind_wechat pull-right" href="{{ GlobalUrlService.buildNull() }}">
+                        <i class="fa fa-weixin" aria-hidden="true"></i>绑定微信
+                    </a>
+                {% endif %}
+            {% endif %}
             <a class="btn btn-link pull-right" data-toggle="tooltip" title="系统不存储任何密码，使用的就是您邮箱的授权码进行登录的">重置密码</a>
             <a class="btn btn-link pull-right set_info">修改信息</a>
         </h3>
@@ -32,5 +43,8 @@
 {% endblock %}
 
 {%block js %}
+{% if config['LOGIN_TYPE_MAP']['open_wechat'] %}
+<script src="//res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js?version=20210129135132"></script>
+{% endif %}
 <script src="{{ GlobalUrlService.buildWWWStaticUrl('/js/home/user/profile/index.js') }}"></script>
 {% endblock %}
