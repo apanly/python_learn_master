@@ -2,6 +2,8 @@
 import os,re
 from flask import Blueprint,request
 from application import app,db
+from common.components.helper.RequestHelper import RequestHelper
+from common.components.helper.ResponseHelper import ResponseHelper
 from common.components.helper.UtilHelper import UtilHelper
 
 route_home_gii = Blueprint('home_gii_page', __name__)
@@ -15,43 +17,57 @@ def gii_index():
 @route_home_gii.route("/model",methods=[ "POST","GET" ])
 def gii_model():
     default_path_prefix = "/common/models/"
+    default_source = 'default'
     if UtilHelper.isGet():
-        db.reflect()
-        #dict_keys 转 list
-        table_list = list( db.metadata.tables.keys() )
+        source = RequestHelper.getString("source", default_source)
+        # 获取所有的数据源
+        binds_list = [default_source] + list(app.config.get('SQLALCHEMY_BINDS') or ())
+        if source not in binds_list:
+            source = default_source
+
+        bind = None if source == default_source else source
+        db.reflect(bind_key=bind)
+        tables = db.get_tables_for_bind(bind_key=bind)
+        table_list = []
+        for table_obj in tables:
+            table_list.append(table_obj.name)
         table_list.sort()
-        return UtilHelper.renderView( "/home/tools/gii/model.html",{
-            "default_path_prefix":default_path_prefix,
-            "table_list" : table_list
+        return ResponseHelper.renderView("/home/tools/gii/model.html", {
+            "default_path_prefix": default_path_prefix,
+            "table_list": table_list,
+            "binds_list": binds_list,
+            "source": source,
         })
 
-    req = request.values
 
-    table = req.get("table", "").strip()
-    path = req.get("path", "").strip()
+    source = RequestHelper.getString("source", default_source)
+    table_name = RequestHelper.getString("table", "")
+    path = RequestHelper.getString("path", "")
 
-    ##后面这里的数据库做成选择的，因为有多数据库的可能
-    engine_uri = app.config.get( 'SQLALCHEMY_DATABASE_URI','' )
+    ###可以兼容多数据源
+    engine_uri_map = app.config.get('SQLALCHEMY_BINDS')
+    engine_uri = engine_uri_map.get(source, app.config.get('SQLALCHEMY_DATABASE_URI', ''))
+
     folder_path = app.root_path + default_path_prefix + path
     #不存在就新建
     if not os.path.exists( folder_path ):
         os.makedirs( folder_path )
 
-    model_name = ( table.replace( "-"," " ).replace( "_"," " ).title() ).replace(" ","")
+    model_name = ( table_name.replace( "-"," " ).replace( "_"," " ).title() ).replace(" ","")
     model_path = folder_path + "/" + model_name + ".py"
 
     #2>&1 标准错误重定向到标准输出, --noinflect 不把复数处理成单数 例如 user_news 会变成 UserNew
-    cmd = 'flask-sqlacodegen "{0}" --noinflect --tables {1} --outfile "{2}"  --flask 2>&1'.format( engine_uri ,table,model_path)
+    cmd = 'flask-sqlacodegen "{0}" --noinflect --tables {1} --outfile "{2}"  --flask 2>&1'.format( engine_uri ,table_name,model_path)
     print( cmd )
     p = os.popen( cmd )
     out_list = p.readlines()
     p.close()
     if  out_list and len( out_list ) > 0:
-        return UtilHelper.renderErrJSON( "失败原因：" + "<br/>".join( out_list) )
+        return ResponseHelper.renderErrJSON( "失败原因：" + "<br/>".join( out_list) )
 
     ##为了不破坏扩展，实现正则替换，读文件，按行替换
     if not os.path.exists( model_path ):
-        return UtilHelper.renderErrJSON("model文件不存在，无法执行替换~~")
+        return ResponseHelper.renderErrJSON("model文件不存在，无法执行替换~~")
     try:
         f = open( model_path )
         ret = []
@@ -74,6 +90,14 @@ def gii_model():
             ret.append( line )
         f.close()
 
+        ##指定数据源
+        bind_key_str = ''
+        if source != default_source:
+            bind_key_str = f'''
+    ##指定数据源
+    __bind_key__ = '{source}'
+            '''
+
         ##最后加一些常用方法
         common_funcs = '''
     def __init__(self, **items):
@@ -87,13 +111,13 @@ def gii_model():
                 setattr(self, key, items[key])
         '''
         f = open( model_path , "w", encoding="utf-8")
-        f.write( "".join(ret) + common_funcs )
+        f.write( "".join(ret) + bind_key_str  + common_funcs )
         f.flush()
         f.close()
     except Exception as e:
-        return UtilHelper.renderSucJSON()
+        return ResponseHelper.renderSucJSON()
 
-    return UtilHelper.renderSucJSON()
+    return ResponseHelper.renderSucJSON()
 
 @route_home_gii.route("/job",methods=[ "POST","GET" ])
 def gii_job():

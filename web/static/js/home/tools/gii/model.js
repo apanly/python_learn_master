@@ -6,6 +6,10 @@ var gii_model_ops = {
     },
     eventBind: function () {
         var that = this;
+        $(".gii_model_wrap select[name=source]").change(function () {
+            window.location.href = home_common_ops.buildUrl("/tools/gii/model",{ 'source': $(this).val() })
+        });
+
         $(".gii_model_wrap select[name=table]").select2({
             language: "zh-CN",
             width: '100%'
