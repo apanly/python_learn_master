@@ -8,10 +8,7 @@ flask-debugtoolbar
 requests
 BeautifulSoup4
 sqlacodegen
-###官方还没有合并，本地开发环境自己下载安装把 https://github.com/apanly/flask-sqlacodegen
-#https://github.com/apanly/flask-sqlacodegen
-#flask-sqlacodegen
+flask-sqlacodegen
 ## 如果是windows uwsgi安装不成功，注释掉就好了
 uwsgi
 validators
-opencv-python
